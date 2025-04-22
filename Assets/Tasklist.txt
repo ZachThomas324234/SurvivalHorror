@@ -1,0 +1,22 @@
+PlayerMovement :
+walk, run, attack, inventory, pickup
+
+CameraManager :
+Triggers switch current camera
+
+Decay gimmick : 
+
+Puzzles : 
+
+Inventory :
+6 - 8 slots, equip / use, examine, discard
+
+Inventory UI
+
+Materials / Texturing :
+walls, floors, carpets, doors + frame
+
+Decorating :
+player model, door, carpet, furniture (sofa, bed, desk, wardrobe, bath, toilet, chandelier)
+
+Music / SFX :
