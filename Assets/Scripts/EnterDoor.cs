@@ -1,13 +1,16 @@
+using System.Collections;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class EnterDoor : MonoBehaviour
 {
     private bool playerInRange = false;
-    public GameObject place, player;
+    public GameObject place, player, cutscenePoint;
     public PlayerController pm;
     public Animator doorOpen;
     public Animator camera;
+    public Camera cutsceneCamera;
+    public Camera[] cameras;
 
     private void Awake()
     {
@@ -25,9 +28,28 @@ public class EnterDoor : MonoBehaviour
 
     private void DoorEntered()
     {
-        doorOpen.Play("RotatePoint");
-        camera.Play("CutsceneCamera");
+        DisableAllCameras();
+        //pm.rb.position = cutscenePoint.transform.position;
+        doorOpen.Play("RotatePoint", -1, 0);
+        camera.Play("CutsceneCamera", -1, 0);
+        //disable player input
+        //play sound effects
+        cutsceneCamera.enabled = true;
+        StartCoroutine(CutscenePlay());
+    }
+
+    IEnumerator CutscenePlay()
+    {
+        yield return new WaitForSeconds(4.5f);
         pm.rb.position = place.transform.position;
+    }
+
+    void DisableAllCameras()
+    {
+        foreach (Camera camera in cameras)
+        {
+            camera.enabled = false;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
