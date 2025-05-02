@@ -41,12 +41,14 @@ public class PlayerController : MonoBehaviour
     public float blendTilt;
 
     private Quaternion targetRotation;
+    public EnterDoor ed;
 
     void Awake()
     {
         Camera = GameObject.Find("PlayerCamera").transform;
         rb = GetComponent<Rigidbody>();
         controller = GetComponent<CharacterController>();
+        ed = FindAnyObjectByType<EnterDoor>();
         //cinemachineRecomposer = FindAnyObjectByType<CinemachineRecomposer>();
         staminaAmount = 2;
         targetRotation = transform.rotation;
@@ -55,7 +57,6 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         //cinemachineRecomposer.Tilt = Mathf.SmoothDamp(cinemachineRecomposer.Tilt, -MovementY*2, ref PanRef, 0.5f);
-
         HandleMovement();
     }
 
@@ -106,6 +107,19 @@ public class PlayerController : MonoBehaviour
         {
             isRunning = false;
             Speed = 70;
+        }
+    }
+
+    public void Interact(InputAction.CallbackContext interact)
+    {
+        if (interact.started)
+        {
+            Collider[] colliders = Physics.OverlapSphere(transform.position, 0.1f, Physics.AllLayers, QueryTriggerInteraction.Collide);
+            foreach (Collider item in colliders)
+            {
+                EnterDoor door = item.GetComponent<EnterDoor>();
+                if (door != null) door.DoorEntered();
+            }
         }
     }
 
