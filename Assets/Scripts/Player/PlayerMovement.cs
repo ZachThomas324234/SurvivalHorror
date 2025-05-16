@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public float rotationSpeed = 120, rotateInput = 100;
     public float staminaAmount = 0;
     public float counterMovement;
+    public float downwardForce;
     [Range(0, 2f)]public float staminaCooldown = 0;
     [HideInInspector]public Vector3 CamF;
     [HideInInspector]public Vector3 CamR;
@@ -26,6 +27,7 @@ public class PlayerController : MonoBehaviour
     private float PanRef;
 
     public Vector3 velocityXZ;
+    public Vector3 velocityY;
 
     [Header("References")]
     public Rigidbody rb;
@@ -67,6 +69,9 @@ public class PlayerController : MonoBehaviour
         Movement = (CamF * MovementY + CamR * MovementX).normalized;
         rb.AddForce(transform.forward * Speed * MovementY);
         rb.AddForce(velocityXZ * counterMovement);
+
+        //velocityY = new Vector3 (rb.linearVelocity.y, 0);
+        //rb.AddForce(velocityY * downwardForce);
 
         //staminaAmount = Math.Clamp (staminaAmount + (isRunning? -Time.deltaTime: +Time.deltaTime), 0, 2f);
 
