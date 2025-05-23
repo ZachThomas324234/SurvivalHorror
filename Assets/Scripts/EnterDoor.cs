@@ -1,5 +1,4 @@
 using System.Collections;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,11 +12,14 @@ public class EnterDoor : MonoBehaviour
     public Camera cutsceneCamera;
     public Camera[] cameras;
     public PlayerInput input;
+    public AudioSource audioSource;
+    public AudioClip doorOpens;
 
     private void Awake()
     {
         pc = FindAnyObjectByType<PlayerController>();
         input = FindAnyObjectByType<PlayerInput>();
+        audioSource = gameObject.GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -30,8 +32,7 @@ public class EnterDoor : MonoBehaviour
         DisableAllCameras();
         doorOpen.Play("RotatePoint", -1, 0);
         camera.Play("CutsceneCamera", -1, 0);
-        //disable player input
-        //play sound effects
+        audioSource.PlayOneShot(doorOpens);
         cutsceneCamera.enabled = true;
         input.DeactivateInput();
         StartCoroutine(CutscenePlay());

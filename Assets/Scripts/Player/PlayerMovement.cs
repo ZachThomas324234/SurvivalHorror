@@ -1,7 +1,6 @@
 using System;
 using Unity.Mathematics;
 using Unity.VisualScripting;
-using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.TextCore.Text;
@@ -44,6 +43,8 @@ public class PlayerController : MonoBehaviour
 
     private Quaternion targetRotation;
     public EnterDoor ed;
+    public PickUpItem pui;
+    public Exit e;
 
     void Awake()
     {
@@ -51,6 +52,8 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         controller = GetComponent<CharacterController>();
         ed = FindAnyObjectByType<EnterDoor>();
+        pui = FindAnyObjectByType<PickUpItem>();
+        e = FindAnyObjectByType<Exit>();
         //cinemachineRecomposer = FindAnyObjectByType<CinemachineRecomposer>();
         staminaAmount = 2;
         targetRotation = transform.rotation;
@@ -124,6 +127,10 @@ public class PlayerController : MonoBehaviour
             {
                 EnterDoor door = item.GetComponent<EnterDoor>();
                 if (door != null) door.DoorEntered();
+                PickUpItem thing = item.GetComponent<PickUpItem>();
+                if (thing != null) thing.ItemGrabbed();
+                Exit exit = item.GetComponent<Exit>();
+                if (exit != null && pui.hasKey) exit.Victory();
             }
         }
     }
