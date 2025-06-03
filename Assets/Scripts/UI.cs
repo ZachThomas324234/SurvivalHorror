@@ -4,10 +4,12 @@ using UnityEngine.UI;
 
 public class UI : MonoBehaviour
 {
-    public GameObject exit, keyText, starterText, escapeText;
+    public GameObject exit, keyText, starterText, escapeText, menu, exitButton;
 
     void Awake()
     {
+        menu.SetActive(false);
+        exitButton.SetActive(false);
         escapeText.SetActive(true);
         starterText.SetActive(true);
         keyText.SetActive(false);

@@ -37,6 +37,8 @@ public class PlayerController : MonoBehaviour
     public bool isRunning;
     public bool cantRun;
     public bool going;
+    public bool menuActive;
+    public bool pressedEsc;
 
     public float targetTilt;
     public float blendTilt;
@@ -45,6 +47,7 @@ public class PlayerController : MonoBehaviour
     public EnterDoor ed;
     public PickUpItem pui;
     public Exit e;
+    public UI ui;
 
     void Awake()
     {
@@ -54,6 +57,7 @@ public class PlayerController : MonoBehaviour
         ed = FindAnyObjectByType<EnterDoor>();
         pui = FindAnyObjectByType<PickUpItem>();
         e = FindAnyObjectByType<Exit>();
+        ui = FindAnyObjectByType<UI>();
         //cinemachineRecomposer = FindAnyObjectByType<CinemachineRecomposer>();
         staminaAmount = 2;
         targetRotation = transform.rotation;
@@ -81,6 +85,26 @@ public class PlayerController : MonoBehaviour
         LockToMaxSpeed();
 
     }
+
+    public void Escape(InputAction.CallbackContext escapeButton)
+    {
+        if (escapeButton.started)
+        {
+            menuActive = !menuActive;
+            ui.menu.SetActive(menuActive);
+            ui.exitButton.SetActive(menuActive);
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.None; 
+    }
+
+        //if (escapeButton.)
+        //{
+        //    ui.menu.SetActive(false);
+        //    ui.escapeText.SetActive(false);
+        //}
 
 
     public void onMove(InputAction.CallbackContext MovementValue)
@@ -150,4 +174,4 @@ public class PlayerController : MonoBehaviour
         cantRun = true;
         Speed = 40;
     }
-}
+    }
